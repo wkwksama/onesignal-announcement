@@ -13,6 +13,7 @@ module.exports = {
         subtitle: req.body.subtitle,
         content: req.body.content,
         images: images,
+        links: req.body.links,
         author: req.user.name,
         scope: req.body.scope
       })

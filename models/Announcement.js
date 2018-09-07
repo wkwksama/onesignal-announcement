@@ -5,6 +5,7 @@ let announcementSchema = new mongoose.Schema({
   subtitle: { type: String },
   content: { type: String, required: true },
   images: [{ type: String }],
+  links: [{ type: String }],
   author: { type: String, required: true },
   scope: { type: String, required: true, default: 'all' }
 }, {
