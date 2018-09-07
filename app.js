@@ -14,6 +14,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var announcement = require('./routes/announcement');
 var journey = require('./routes/journey');
+var classroom = require('./routes/classroom');
 var selection = require('./routes/selection');
 var auth = require('./middleware/auth')
 
@@ -36,6 +37,7 @@ app.use(cors())
 app.use('/api/', auth)
 app.use('/api/announcement', announcement)
 app.use('/api/journey', journey)
+app.use('/api/classroom', classroom)
 app.use('/api/selection', selection)
 
 // catch 404 and forward to error handler
