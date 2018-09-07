@@ -4,9 +4,12 @@ var Announcement = require('../models/Announcement')
 
 module.exports = {
   create: async function (req, res) {
-    var images = req.files.map(file => {
-      return file.filename
-    })
+    var images
+    if (req.files) {
+      images = req.files.map(file => {
+        return file.filename
+      })
+    }
     try {
       var announcement = await Announcement.create({
         title: req.body.title,
@@ -17,38 +20,14 @@ module.exports = {
         author: req.user.name,
         scope: req.body.scope
       })
-      if (announcement) {
-        var headers = {
-          "Content-Type": "application/json; charset=utf-8",
-          "Authorization": "Basic MTA5OGYwZDItNWQyNi00NmRlLTk5YzAtOTQ2YWM4MjExZmQ3"
-        };
-        var result = await axios({
-          url: 'https://onesignal.com/api/v1/notifications',
-          method: 'post',
-          headers,
-          data: {
-            app_id: process.env.SIGNALID,
-            filters: [{
-              field: 'tag',
-              key: 'scope',
-              relation: '=',
-              value: req.body.scope
-            }],
-            headings: { en: "Pengumuman Baru" },
-            contents: { en: req.body.title }
-          }
-        })
-        console.log(result.data);
-        res.json(result.data)
-      }
-      else {
-        res.status(500).json({ message: 'failed' })
-      }
+      res.json(announcement)
     }
     catch (err) {
-      images.forEach(image => {
-        fs.unlink(`public/uploads/${image}`)
-      })
+      if (images) {
+        images.forEach(image => {
+          fs.unlink(`public/uploads/${image}`)
+        })
+      }
       res.status(500).json({
         message: err.message
       })
@@ -56,7 +35,7 @@ module.exports = {
   },
   all: async function (req, res) {
     try {
-      var annc = await Announcement.find({})
+      var annc = await Announcement.find({}).sort({ createdAt: -1 })
       res.json(annc)
     } catch (err) {
       res.status(500).json(err.message)
