@@ -16,11 +16,11 @@ module.exports = {
   },
   find: async function (req, res) {
     try {
-      let result = Delegate.findOne({ by: req.user.sub })
+      let result = await Delegate.findOne({ userId: req.user.sub })
 
       res.json(result)
     } catch (err) {
-      res.status(500).json(err.message)
+      res.status(500).json(result)
     }
   }
 }
