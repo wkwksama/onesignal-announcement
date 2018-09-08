@@ -17,6 +17,7 @@ var journey = require('./routes/journey');
 var classroom = require('./routes/classroom');
 var selection = require('./routes/selection');
 var liveScore = require('./routes/liveScore');
+var delegate = require('./routes/delegate');
 var auth = require('./middleware/auth')
 
 var app = express();
@@ -41,6 +42,7 @@ app.use('/api/journey', journey)
 app.use('/api/classroom', classroom)
 app.use('/api/selection', selection)
 app.use('/api/liveScore', liveScore)
+app.use('/api/delegate', delegate)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
